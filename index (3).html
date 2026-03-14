@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mentoria — Propósito & Espiritualidade</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c0b0f;
+      --surface: #13111a;
+      --surface2: #1c1828;
+      --gold: #c9a96e;
+      --gold-light: #e8cfa0;
+      --gold-dim: rgba(201,169,110,0.15);
+      --text: #f0ece4;
+      --text-muted: #9e9585;
+      --border: rgba(201,169,110,0.2);
+      --radius: 12px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── BACKGROUND ── */
+    .bg-orbs {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    }
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.18;
+    }
+    .orb-1 { width: 600px; height: 600px; background: #7b5ea7; top: -150px; left: -100px; animation: drift1 18s ease-in-out infinite alternate; }
+    .orb-2 { width: 400px; height: 400px; background: #c9a96e; bottom: 200px; right: -80px; animation: drift2 22s ease-in-out infinite alternate; }
+    .orb-3 { width: 300px; height: 300px; background: #3d6b8a; top: 40%; left: 50%; animation: drift3 16s ease-in-out infinite alternate; }
+
+    @keyframes drift1 { to { transform: translate(60px, 80px); } }
+    @keyframes drift2 { to { transform: translate(-40px, -60px); } }
+    @keyframes drift3 { to { transform: translate(-80px, 40px); } }
+
+    /* ── GRAIN ── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 1;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.04;
+    }
+
+    /* ── WRAPPER ── */
+    .wrapper {
+      position: relative; z-index: 2;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 80px 24px 100px;
+    }
+
+    /* ── SYMBOL ── */
+    .symbol {
+      display: flex; justify-content: center; margin-bottom: 32px;
+      animation: fadeDown 0.8s ease both;
+    }
+    .symbol svg { width: 54px; height: 54px; opacity: 0.85; }
+
+    /* ── EYEBROW ── */
+    .eyebrow {
+      text-align: center;
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      animation: fadeDown 0.9s ease both 0.1s;
+    }
+
+    /* ── HEADLINE ── */
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 6vw, 3.6rem);
+      font-weight: 300;
+      line-height: 1.18;
+      text-align: center;
+      color: var(--text);
+      margin-bottom: 24px;
+      animation: fadeDown 1s ease both 0.2s;
+    }
+    h1 em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+
+    /* ── SUBHEADLINE ── */
+    .sub {
+      text-align: center;
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto 56px;
+      animation: fadeDown 1s ease both 0.3s;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 40px;
+      animation: fadeDown 1s ease both 0.4s;
+    }
+    .divider-line { flex: 1; height: 1px; background: var(--border); }
+    .divider-text {
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold); white-space: nowrap;
+    }
+
+    /* ── FORM CARD ── */
+    .form-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px 40px;
+      animation: fadeUp 1s ease both 0.5s;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(201,169,110,0.1);
+    }
+
+    @media (max-width: 520px) {
+      .form-card { padding: 32px 20px; }
+    }
+
+    .form-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+    }
+    .form-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      line-height: 1.6;
+    }
+
+    /* ── FIELD ── */
+    .field { margin-bottom: 24px; }
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      padding: 14px 16px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+    }
+    .field input::placeholder,
+    .field textarea::placeholder { color: #4a4555; }
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px var(--gold-dim);
+    }
+    .field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a96e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+      cursor: pointer;
+    }
+    .field select option { background: #1c1828; }
+    .field textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+
+    /* two cols */
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 480px) { .field-row { grid-template-columns: 1fr; } }
+
+    /* ── RADIO GROUP ── */
+    .radio-group { display: flex; flex-direction: column; gap: 10px; }
+    .radio-option {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .radio-option:hover { border-color: var(--gold); background: rgba(201,169,110,0.05); }
+    .radio-option input[type="radio"] { display: none; }
+    .radio-dot {
+      width: 18px; height: 18px; min-width: 18px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold);
+      margin-top: 2px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .radio-dot::after {
+      content: '';
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .radio-option.selected { border-color: var(--gold); background: rgba(201,169,110,0.08); }
+    .radio-option.selected .radio-dot::after { opacity: 1; }
+    .radio-label { font-size: 0.9rem; line-height: 1.5; color: var(--text); }
+
+    /* ── SUBMIT ── */
+    .btn-submit {
+      width: 100%;
+      margin-top: 12px;
+      background: linear-gradient(135deg, #c9a96e, #e8cfa0);
+      color: #0c0b0f;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      border: none;
+      border-radius: var(--radius);
+      padding: 18px 24px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 8px 30px rgba(201,169,110,0.25);
+    }
+    .btn-submit:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+      box-shadow: 0 12px 40px rgba(201,169,110,0.35);
+    }
+    .btn-submit:active { transform: translateY(0); }
+
+    /* loading state */
+    .btn-submit.loading { opacity: 0.6; pointer-events: none; }
+
+    /* ── FOOTER NOTE ── */
+    .footer-note {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 28px;
+      line-height: 1.7;
+      animation: fadeUp 1s ease both 0.7s;
+    }
+    .footer-note a { color: var(--gold); text-decoration: none; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SUCCESS STATE ── */
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .success-msg .icon { font-size: 3rem; margin-bottom: 16px; }
+    .success-msg h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 300;
+      color: var(--gold-light);
+      margin-bottom: 12px;
+    }
+    .success-msg p { color: var(--text-muted); line-height: 1.7; }
+  </style>
+</head>
+<body>
+
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="wrapper">
+
+    <!-- Symbol -->
+    <div class="symbol">
+      <svg viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="27" cy="27" r="26" stroke="#c9a96e" stroke-width="0.8" opacity="0.4"/>
+        <circle cx="27" cy="27" r="18" stroke="#c9a96e" stroke-width="0.8" opacity="0.6"/>
+        <line x1="27" y1="1" x2="27" y2="53" stroke="#c9a96e" stroke-width="0.8" opacity="0.3"/>
+        <line x1="1" y1="27" x2="53" y2="27" stroke="#c9a96e" stroke-width="0.8" opacity="0.3"/>
+        <circle cx="27" cy="27" r="4" fill="#c9a96e" opacity="0.9"/>
+        <circle cx="27" cy="9" r="2" fill="#c9a96e" opacity="0.5"/>
+        <circle cx="27" cy="45" r="2" fill="#c9a96e" opacity="0.5"/>
+        <circle cx="9" cy="27" r="2" fill="#c9a96e" opacity="0.5"/>
+        <circle cx="45" cy="27" r="2" fill="#c9a96e" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <!-- Eyebrow -->
+
+
+    <!-- Headline -->
+
+
+    <!-- Sub -->
+    <p class="sub">
+      Esta é uma conversa para quem sente que há algo maior esperando por si — e está disposto a ir fundo para encontrar seu propósito, reconectar com o sagrado e transformar sua vida de dentro para fora.
+    </p>
+
+    <!-- Divider -->
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-text">Preencha para agendar sua chamada</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- FORM CARD -->
+    <div class="form-card">
+
+      <p class="form-title">Chamada Gratuita de Alinhamento</p>
+      <p class="form-subtitle">Preencha com atenção e intenção. Suas respostas me ajudam a entender onde você está e como posso apoiar sua jornada.</p>
+
+      <form id="leadForm" action="https://hook.us2.make.com/ddanslwupuskj3jr8uhik2qp64ie1082" method="POST" target="hidden_iframe" onsubmit="handleSubmit(event)">
+
+        <!-- Nome e Email -->
+        <div class="field-row">
+          <div class="field">
+            <label for="nome">Nome completo *</label>
+            <input type="text" id="nome" name="nome" placeholder="Seu nome" required />
+          </div>
+          <div class="field">
+            <label for="email">E-mail *</label>
+            <input type="email" id="email" name="email" placeholder="seu@email.com" required />
+          </div>
+        </div>
+
+        <!-- Telefone -->
+        <div class="field">
+          <label for="telefone">WhatsApp *</label>
+          <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" required />
+        </div>
+
+        <!-- Momento de vida -->
+        <div class="field">
+          <label>Como você descreveria seu momento atual? *</label>
+          <div class="radio-group" id="momento">
+            <label class="radio-option">
+              <input type="radio" name="momento" value="Sinto que perdi o sentido e estou buscando propósito" />
+              <span class="radio-dot"></span>
+              <span class="radio-label">Sinto que perdi o sentido e estou buscando propósito</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="momento" value="Tenho uma espiritualidade ativa, mas quero aprofundar" />
+              <span class="radio-dot"></span>
+              <span class="radio-label">Tenho uma espiritualidade ativa, mas quero aprofundar</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="momento" value="Estou em transição de vida e buscando direção" />
+              <span class="radio-dot"></span>
+              <span class="radio-label">Estou em transição de vida e buscando direção</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="momento" value="Sinto o chamado, mas tenho medo de seguir" />
+              <span class="radio-dot"></span>
+              <span class="radio-label">Sinto o chamado, mas tenho medo de seguir</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Disponibilidade para investir -->
+        <div class="field">
+          <label>Caso a nossa equipe valide que você está pronto para o próximo passo, você estaria disposto a investir tempo para ter um acompanhamento personalizado na sua vida espiritual? *</label>
+          <div class="radio-group" id="investimento-group">
+            <label class="radio-option">
+              <input type="radio" name="investimento" value="Sim" />
+              <span class="radio-dot"></span>
+              <span class="radio-label">Sim</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="investimento" value="Não" />
+              <span class="radio-dot"></span>
+              <span class="radio-label">Não</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="investimento" value="Preciso de mais informações" />
+              <span class="radio-dot"></span>
+              <span class="radio-label">Preciso de mais informações</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Texto livre -->
+        <div class="field">
+          <label for="objetivos">O que te trouxe até aqui? *</label>
+          <textarea id="objetivos" name="objetivos" placeholder="Compartilhe em suas palavras o que está sentindo, o que busca e por que agora é o momento..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+          Quero agendar minha chamada
+        </button>
+
+      </form>
+
+      <!-- Sucesso (exibido após envio) -->
+      <div class="success-msg" id="successMsg">
+        <div class="icon">✦</div>
+        <h2>Recebemos sua mensagem</h2>
+        <p>Você será redirecionado para escolher o melhor horário para a sua chamada de alinhamento.<br/>Se não for redirecionado automaticamente, <a href="#" id="calLink">clique aqui</a>.</p>
+      </div>
+
+    </div>
+
+    <iframe name="hidden_iframe" style="display:none"></iframe>
+    <p class="footer-note">
+      Suas informações são tratadas com total privacidade e respeito.<br/>
+      Esta chamada é gratuita e sem compromisso.
+    </p>
+
+  </div>
+
+  <script>
+    // ── Cal.com URL — substitua pela sua
+    const CALCOM_URL = 'https://cal.com/tiago-nc-wwd9az/chamada-alinhamento-proposito';
+
+    // ── Radio option toggle ──
+    document.querySelectorAll('.radio-option').forEach(option => {
+      option.addEventListener('click', () => {
+        const group = option.closest('.radio-group');
+        group.querySelectorAll('.radio-option').forEach(o => o.classList.remove('selected'));
+        option.classList.add('selected');
+        option.querySelector('input[type="radio"]').checked = true;
+      });
+    });
+
+    // ── Phone mask ──
+    document.getElementById('telefone').addEventListener('input', function(e) {
+      let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 10) v = v.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+      else if (v.length > 6) v = v.replace(/^(\d{2})(\d{4})(\d*)$/, '($1) $2-$3');
+      else if (v.length > 2) v = v.replace(/^(\d{2})(\d*)$/, '($1) $2');
+      e.target.value = v;
+    });
+
+    // ── FORM SUBMIT ──
+    function handleSubmit(e) {
+      const nome        = document.getElementById('nome').value.trim();
+      const email       = document.getElementById('email').value.trim();
+      const telefone    = document.getElementById('telefone').value.trim();
+      const momento     = document.querySelector('input[name="momento"]:checked')?.value || '';
+      const investimento = document.querySelector('input[name="investimento"]:checked')?.value || '';
+      const objetivos   = document.getElementById('objetivos').value.trim();
+
+      // Validação
+      if (!nome || !email || !telefone || !momento || !investimento || !objetivos) {
+        e.preventDefault();
+        alert('Por favor, preencha todos os campos antes de continuar.');
+        return;
+      }
+
+      const btn = document.getElementById('submitBtn');
+      btn.classList.add('loading');
+      btn.textContent = 'Enviando...';
+
+      // O formulário envia direto para o Make via POST nativo (sem CORS)
+      // Após 2.5s redireciona para o Cal.com
+      const calUrl = `${CALCOM_URL}?name=${encodeURIComponent(nome)}&email=${encodeURIComponent(email)}`;
+      document.getElementById('calLink').href = calUrl;
+
+      setTimeout(() => {
+        document.getElementById('leadForm').style.display = 'none';
+        document.getElementById('successMsg').style.display = 'block';
+        setTimeout(() => { window.location.href = calUrl; }, 2500);
+      }, 1000);
+    }
+  </script>
+
+</body>
+</html>
